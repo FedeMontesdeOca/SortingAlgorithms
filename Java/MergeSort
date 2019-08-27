@@ -1,0 +1,90 @@
+import java.util.Arrays;
+import java.util.Scanner;
+import java.lang.Math;
+
+public class Main {
+
+    private void mergeFunction ( int myArray[], int p, int q, int r ){
+
+        int i, j, k;
+        int n1 = q - p + 1;
+        int n2 =  r - q;
+
+
+        int L[] = new int[n1];
+        int R[]= new int[n2];
+
+
+        for (i = 0; i < n1; i++)
+            L[i] = myArray[p + i];
+        for (j = 0; j < n2; j++)
+            R[j] = myArray[q + 1+ j];
+
+
+        i = 0;
+        j = 0;
+        k = p;
+
+        while (i < n1 && j < n2)
+        {
+            if (L[i] <= R[j])
+            {
+                myArray[k] = L[i];
+                i++;
+            }
+            else
+            {
+                myArray[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+
+
+        while (i < n1)
+        {
+            myArray[k] = L[i];
+            i++;
+            k++;
+        }
+
+
+        while (j < n2)
+        {
+            myArray[k] = R[j];
+            j++;
+            k++;
+        }
+    }
+
+    private void mergeSort(int myArray[], int p, int r){
+        if (p<r){
+            int q = (int) Math.floor( ((double) (p+r)) / (double) 2);
+            mergeSort(myArray,p,q);
+            mergeSort(myArray,q+1,r);
+            mergeFunction(myArray,p,q,r);
+        }
+    }
+    public static void main(String args[]) {
+        //  obtain the array from the user
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the length of the array: ");
+        int length = scanner.nextInt();
+        System.out.println("");
+        int [] myArray = new int[length];
+        System.out.print("Enter the elements of the array (separated by a space) : ");
+        for(int i=0; i<length; i++ ) {
+            myArray[i] = scanner.nextInt();
+        }
+        System.out.println("Unsorted array: ");
+        System.out.println(Arrays.toString(myArray));
+
+        // Merge sort function call
+        Main sor = new Main();
+        sor.mergeSort(myArray,0,myArray.length-1);
+
+        System.out.println("Sorted array: ");
+        System.out.println(Arrays.toString(myArray));
+    }
+
+}
